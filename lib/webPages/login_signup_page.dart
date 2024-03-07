@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../defaultColors/default_colors.dart';
@@ -23,6 +24,14 @@ class _LoginSignUpPageState extends State<LoginSignUpPage>
  TextEditingController  emailTextEditingController =  TextEditingController();
  TextEditingController  passwordTextEditingController =  TextEditingController();
  bool loadingOn = false;
+
+ chooseImage() async
+ {
+  FilePickerResult? chosenImageFile = await FilePicker.platform.pickFiles(type: FileType.image);
+  setState(() {
+    chosenImageFile!.files.single.bytes;
+  });
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +79,13 @@ class _LoginSignUpPageState extends State<LoginSignUpPage>
                                 : Image.asset("../images/avatar.png", width: 124, height: 124, fit: BoxFit.cover,)
                           ),
                         ),
-                        //outline choose picture button
+                        //outlined choose picture button
                         Visibility(
                           visible: doesUserWantToSignUp,
                             child: OutlinedButton(
                               onPressed: ()
                               {
-
-
+                                chooseImage();
                               },
                                 style: errorInPicture
                                 ? OutlinedButton.styleFrom(
@@ -202,7 +210,7 @@ class _LoginSignUpPageState extends State<LoginSignUpPage>
                         //toggle button
                          Row(
                           children: [
-                            Text(
+                            const Text(
                                 "Login"
                             ),
                             Switch(
